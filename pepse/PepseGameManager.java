@@ -52,12 +52,12 @@ public class PepseGameManager extends GameManager {
 		gameObjects().addGameObject(sky, Layer.BACKGROUND);
 
 		//set the ground
-		setGround(windowController);
+		setGround();
 
 	}
 
 	// adding list of block representing a ground, to the game
-	private void setGround(WindowController windowController) {
+	private void setGround() {
 
 		List<Block> groundList =
 				new Terrain(windowController.getWindowDimensions(),10).createInRange(0,

@@ -9,7 +9,7 @@ import pepse.util.NoiseGenerator;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 
 public class Terrain {
@@ -21,9 +21,8 @@ public class Terrain {
 	private final float groundHeightAtX0;
 
 	//parameters
-	private Vector2 windowDimensions;
-	private Random random;
-	private NoiseGenerator noiseGenerator;
+	private final Vector2 windowDimensions;
+	private final NoiseGenerator noiseGenerator;
 
 
 	/**
@@ -35,7 +34,6 @@ public class Terrain {
 	public Terrain(Vector2 windowDimensions, int seed){
 
 		this.windowDimensions = windowDimensions;
-		this.random = new Random();
 		this.groundHeightAtX0 = windowDimensions.mult((float) 2/3).y();
 		this.noiseGenerator = new NoiseGenerator(seed, (int) groundHeightAtX0);
 
