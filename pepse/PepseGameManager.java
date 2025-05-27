@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PepseGameManager extends GameManager {
 
-	//message for rom
+	//קיבלתי
 	private WindowController windowController;
 
 	/**
