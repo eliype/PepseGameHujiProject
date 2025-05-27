@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PepseGameManager extends GameManager {
 
-	//קיבלתי
+	//קיבלתי1
 	private WindowController windowController;
 
 	/**
