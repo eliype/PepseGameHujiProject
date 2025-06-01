@@ -56,6 +56,7 @@ public class Terrain {
 			float noise = (float) this.noiseGenerator.noise(x, Block.SIZE * 7);
 			// Add the noise value to the base ground height and return it
 			return groundHeightAtX0 + noise;
+			//return groundHeightAtX0-noise;
 		}
 		return this.groundHeightAtX0;
 	}
