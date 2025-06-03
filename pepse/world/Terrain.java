@@ -16,6 +16,7 @@ public class Terrain {
 
 	// color for ground block
 	private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
+	//private static final Color BASE_GROUND_COLOR = Color.BLACK;
 	// amount of block beneath the top
 	private static final int TERRAIN_DEPTH = 20;
 	private final float groundHeightAtX0;

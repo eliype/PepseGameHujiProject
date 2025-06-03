@@ -14,6 +14,7 @@ import pepse.world.Block;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -37,12 +38,12 @@ public class Flora {
 	private static final float FINAL_ANGLE_VALUE = 20;
 	private static final float LEAF_CYCLE_LENGTH = 3f;
 	private static final float FINAL_WIDTH = 0.85f;
-	private static final Random rand = new Random();
 	private static final Color ROOT_COLOR = new Color(100, 50, 20);
 	private static final Color LEEFS_COLOR = new Color(50, 200, 30);
 	private static final String ROOT_TAG = "root";
 	private static final String FRUIT_TAG = "fruit";
 	private static final String LEAF_TAG = "leaf";
+	private static final long MY_SEED = 10;
 	private Function<Float, Float> getHeight;
 
 	public Flora(Function<Float, Float> getHeight) {
@@ -50,6 +51,7 @@ public class Flora {
 	}
 
 	public List<GameObject> createInRange(int minX, int maxX) {
+		Random rand = new Random(Objects.hash(MY_SEED));
 		List<GameObject> forest = new ArrayList<>();
 		for (int i = minX; i < maxX - ROOT_WIDTH; i = i + ROOT_WIDTH) {
 			if (rand.nextInt(ROOT_PLANT_RANDOM) == 0) {
@@ -60,6 +62,7 @@ public class Flora {
 	}
 
 	private void buildRoot(int x, List<GameObject> forest) {
+		Random rand = new Random(Objects.hash(x, MY_SEED));
 		int height = (ROOT_HEIGHT / TWO) + rand.nextInt(ROOT_HEIGHT / TWO);
 		float yPosition = this.getHeight.apply((float) x) - height;
 		Renderable rend = new RectangleRenderable(ROOT_COLOR);
@@ -68,14 +71,15 @@ public class Flora {
 				, new Vector2(ROOT_WIDTH, height), rend);
 		root.physics().preventIntersectionsFromDirection(Vector2.ZERO);
 		root.physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
+		root.setTag(ROOT_TAG);
 		forest.add(root);
-		this.buildLeafs(root, forest);
+		this.buildLeafs(root, forest, x);
 
 	}
 
 
-	private void buildLeafs(GameObject root, List<GameObject> forest) {
-
+	private void buildLeafs(GameObject root, List<GameObject> forest, int x) {
+		Random rand = new Random(Objects.hash(x, MY_SEED));
 		Renderable rend = new RectangleRenderable(LEEFS_COLOR);
 		GameObject leaf;
 		float time = 0;
@@ -97,7 +101,7 @@ public class Flora {
 
 
 				} else {
-					this.addFruit(i, j, root, forest);
+					this.addFruit(new Vector2(i, j), root, forest);
 				}
 			}
 		}
@@ -140,13 +144,14 @@ public class Flora {
 				() -> this.updateLeaf(leaf));
 	}
 
-	private void addFruit(int i, int j, GameObject root, List<GameObject> forest) {
+	private void addFruit(Vector2 vec, GameObject root, List<GameObject> forest) {
 		GameObject fruit;
+		Random rand = new Random(Objects.hash(vec.x(),vec.y(), MY_SEED));
 		if (rand.nextInt(TEN) <= FRUITS_DENSITY
-				&& this.inRoot(i, j, root)) {
+				&& this.inRoot(vec.x(), root)) {
 			Color[] fruitColor = {Color.red, Color.ORANGE};
-			fruit = new Fruit(new Vector2(j
-					, i)
+			fruit = new Fruit(new Vector2(vec.y()
+					, vec.x())
 					, new Vector2(LEAF_SIZE, LEAF_SIZE),
 					new OvalRenderable(fruitColor[rand.nextInt(fruitColor.length)]));
 			fruit.setTag(FRUIT_TAG);
@@ -154,7 +159,7 @@ public class Flora {
 		}
 	}
 
-	private Boolean inRoot(int i, int j, GameObject root) {
+	private Boolean inRoot(float i, GameObject root) {
 		return i < root.getTopLeftCorner().y();
 	}
 

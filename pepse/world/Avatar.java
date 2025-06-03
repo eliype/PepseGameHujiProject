@@ -36,7 +36,7 @@ public class Avatar extends GameObject {
 	private static final String ANIMATION_PIC12 = "src/assets/run_3.png";
 	private static final String ANIMATION_PIC13 = "src/assets/run_4.png";
 	private static final String ANIMATION_PIC14 = "src/assets/run_5.png";
-	private static final float VELOCITY_X = 300;
+	private static final float VELOCITY_X = 310;
 	private static final float VELOCITY_Y = -300;
 	private static final float GRAVITY = 180;
 
