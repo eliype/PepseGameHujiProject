@@ -79,18 +79,21 @@ public class Terrain {
 		int newMinX = (int) Math.floor((double) minX / Block.SIZE) * Block.SIZE;
 		int newMaxX = (int) Math.ceil((double) maxX / Block.SIZE) * Block.SIZE;
 
-		RectangleRenderable groundRenderable =
-				new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
-
+		//RectangleRenderable groundRenderable =
+		//		new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
+		RectangleRenderable groundRenderable;
 		List<Block> groundList = new ArrayList<>();
 
 		// Loop over x positions in the adjusted range, step by block size
 		for(int i = newMinX; i < newMaxX; i += Block.SIZE){
-
+			 groundRenderable =
+					new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
 			int blockHeight = (int) (Math.floor(groundHeightAt(i) / Block.SIZE) * Block.SIZE);
 
 			// Create a column of blocks downwards from blockHeight to TERRAIN_DEPTH
 			for(int j = 0 ; j < TERRAIN_DEPTH ; j +=1){
+				groundRenderable =
+						new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
 				groundList.add(new Block(new Vector2(i, j * Block.SIZE + blockHeight),
 						windowDimensions,groundRenderable));
 
