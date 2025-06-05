@@ -7,7 +7,6 @@ import danogl.util.Vector2;
 /**
  * class representing a single drop
  * @author Eliyahu & Rom
- * a
  */
 public class Drop extends GameObject {
 	private static final float GRAVITY = 140;
