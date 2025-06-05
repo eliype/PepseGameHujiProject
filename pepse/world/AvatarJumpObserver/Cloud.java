@@ -31,6 +31,7 @@ public class Cloud implements AvatarJumpObserver {
 	private static final float DROP_CYCLE = 3f;
 	private static final float DROP_FINALE = 0;
 	private static final float INITIAL_DROP = 1;
+	private static final int SCREEN_WIDTH = 1000;
 
 	private static final List<List<Integer>> CLOUD = List.of(
 			List.of(0, 1, 1, 0, 0, 0),
@@ -95,14 +96,22 @@ public class Cloud implements AvatarJumpObserver {
 
 	//Adds animation and sets coordinate space for the given cloud block.
 	private void addCloudeBlock(Block cloudBlock, float cycleLength) {
-		new Transition<Float>(
+		/*new Transition<Float>(
 				cloudBlock, // the game object being changed
 				(Float i) -> cloudBlock.setTopLeftCorner(new Vector2(cloudBlock.getTopLeftCorner().x() + 1, cloudBlock.getTopLeftCorner().y())), // the method to call
 				0f,
-				1000f,
+				0f,
 				Transition.LINEAR_INTERPOLATOR_FLOAT,// use a cubic interpolator
 				cycleLength, // transition fully over half a day
 				Transition.TransitionType.TRANSITION_LOOP, ///////////////////
+				null);
+*/
+		float start = cloudBlock.getTopLeftCorner().x()-Block.SIZE*7;
+		new Transition<Float>(cloudBlock,
+				cloudBlock.transform()::setTopLeftCornerX,
+				start, SCREEN_WIDTH+Block.SIZE*7 + start,
+				Transition.LINEAR_INTERPOLATOR_FLOAT, (SCREEN_WIDTH+Block.SIZE)/60,
+				Transition.TransitionType.TRANSITION_LOOP,
 				null);
 		cloudBlock.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
 	}
@@ -120,7 +129,9 @@ public class Cloud implements AvatarJumpObserver {
 							new Vector2(SIZE_OF_DROPS,SIZE_OF_DROPS)
 					, new RectangleRenderable(Color.blue));
 					this.addDrop(drop,Layer.BACKGROUND);
+					drop.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);////
 					this.addGameObject.accept(drop,Layer.BACKGROUND);
+					System.out.println(col.getTopLeftCorner());
 				}
 			}
 		}

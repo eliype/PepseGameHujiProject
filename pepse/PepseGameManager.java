@@ -162,7 +162,8 @@ public class PepseGameManager extends GameManager {
 	}
 
 	private void addCloude(Cloud cloud) {
-		List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), dayCycle);
+		//List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), dayCycle);
+		List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), 3);
 		for (Block cloudPart : blocks) {
 			gameObjects().addGameObject(cloudPart, Layer.BACKGROUND);
 		}
