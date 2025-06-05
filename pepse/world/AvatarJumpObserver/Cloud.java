@@ -131,7 +131,6 @@ public class Cloud implements AvatarJumpObserver {
 					this.addDrop(drop,Layer.BACKGROUND);
 					drop.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);////
 					this.addGameObject.accept(drop,Layer.BACKGROUND);
-					System.out.println(col.getTopLeftCorner());
 				}
 			}
 		}
