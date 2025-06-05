@@ -9,6 +9,12 @@ import danogl.util.Vector2;
 
 import java.awt.*;
 
+/**
+ * class representing night.
+ * created by a black block which fade through a specific
+ * time.
+ * @author Eliyahu & Rom
+ */
 public class Night {
 	private static final String TAG = "night";
 	private static int diff = 0;
@@ -19,10 +25,13 @@ public class Night {
 	public static GameObject create(Vector2 windowDimensions,
 									float cycleLength) {
 		Renderable rectangle = new RectangleRenderable(Color.BLACK);
-		diff++;
+		diff++; // Used to differentiate multiple night objects
 		GameObject night = new GameObject(Vector2.ZERO, windowDimensions, rectangle);
-		night.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
-		night.setTag(TAG + diff);
+
+		night.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES); // Overlay follows camera
+		night.setTag(TAG + diff); // Unique tag for identification
+
+		// Animate opaqueness between INITIAL_VALUE and MIDNIGHT_OPACITY
 		new Transition<Float>(night, night.renderer()::setOpaqueness, INITIAL_VALUE, MIDNIGHT_OPACITY
 				, Transition.CUBIC_INTERPOLATOR_FLOAT, cycleLength, Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
 				null);

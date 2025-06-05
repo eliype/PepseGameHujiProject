@@ -4,6 +4,10 @@ import danogl.GameObject;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
+/**
+ * class representing a single drop
+ * @author Eliyahu & Rom
+ */
 public class Drop extends GameObject {
 	private static final float GRAVITY = 140;
 
@@ -18,7 +22,7 @@ public class Drop extends GameObject {
 	 */
 	public Drop(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
 		super(topLeftCorner, dimensions, renderable);
-		transform().setAccelerationY(GRAVITY);
+		transform().setAccelerationY(GRAVITY); // make the drop fall to the ground
 
 	}
 

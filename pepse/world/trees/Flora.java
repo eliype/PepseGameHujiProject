@@ -19,6 +19,12 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+/**
+ * class responsible for creating a forest full of trees.
+ * creating the root and the plants e.g.
+ *
+ * @author Eliyahu & Rom
+ */
 public class Flora {
 
 
@@ -46,16 +52,30 @@ public class Flora {
 	private static final long MY_SEED = 10;
 	private Function<Float, Float> getHeight;
 
+
+	/**
+	 * Constructor for Flora.
+	 *
+	 * @param getHeight a function that returns the terrain height at a given x-coordinate
+	 */
 	public Flora(Function<Float, Float> getHeight) {
 		this.getHeight = getHeight;
 	}
 
+	/**
+	 * Creates flora objects randomly within a horizontal range.
+	 *
+	 * @param minX the starting x-coordinate (inclusive)
+	 * @param maxX the ending x-coordinate (exclusive)
+	 * @return a list of generated plant GameObjects
+	 */
 	public List<GameObject> createInRange(int minX, int maxX) {
-		Random rand = new Random(Objects.hash(MY_SEED));
+		Random rand = new Random(Objects.hash(MY_SEED)); // Seeded for reproducibility
 		List<GameObject> forest = new ArrayList<>();
+
 		for (int i = minX; i < maxX - ROOT_WIDTH; i = i + ROOT_WIDTH) {
 			if (rand.nextInt(ROOT_PLANT_RANDOM) == 0) {
-				this.buildRoot(i, forest);
+				this.buildRoot(i, forest); // Add root at position i
 			}
 		}
 		return forest;
