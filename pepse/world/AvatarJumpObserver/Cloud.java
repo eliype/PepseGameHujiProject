@@ -78,7 +78,7 @@ public class Cloud implements AvatarJumpObserver {
 							Vector2.ZERO,
 							new RectangleRenderable(ColorSupplier.approximateMonoColor(
 									BASE_CLOUD_COLOR)));
-					addCloudeBlock(cloudBlock, cycleLength); // Apply animation/timing
+					addCloudeBlock(cloudBlock); // Apply animation/timing
 					cloud.add(cloudBlock); // Add to return list
 					saveRow.add(cloudBlock); // Save for drop tracking
 				}
@@ -95,7 +95,7 @@ public class Cloud implements AvatarJumpObserver {
 	}
 
 	//Adds animation and sets coordinate space for the given cloud block.
-	private void addCloudeBlock(Block cloudBlock, float cycleLength) {
+	private void addCloudeBlock(Block cloudBlock) {
 		/*new Transition<Float>(
 				cloudBlock, // the game object being changed
 				(Float i) -> cloudBlock.setTopLeftCorner(new Vector2(cloudBlock.getTopLeftCorner().x() + 1, cloudBlock.getTopLeftCorner().y())), // the method to call
