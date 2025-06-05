@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * class representing a cloud.
+ * when avatar jump the cloud is raining
+ * @author Eliyahu & Rom
+ */
 public class Cloud implements AvatarJumpObserver {
 	private static final int SIZE_OF_BLOCK = 30;
 	private static final int SIZE_OF_DROPS = 8;
@@ -49,25 +54,37 @@ public class Cloud implements AvatarJumpObserver {
 		this.removeGameObject = removeGameObject;
 	}
 
+	/**
+	 * Creates a cloud of blocks starting from the given top-left corner.
+	 *
+	 * @param topLeftCorner the starting position of the cloud
+	 * @param cycleLength   the animation cycle length for each block
+	 * @return list of all blocks in the created cloud
+	 */
 	public List<Block> create(Vector2 topLeftCorner, float cycleLength) {
 		List<Block> cloud = new ArrayList<>();
 		float row = topLeftCorner.y();
 		float col = topLeftCorner.x();
 		Block cloudBlock;
 		ArrayList<GameObject> saveRow = new ArrayList<>();
+
+		// Iterate through cloud pattern rows
 		for (List<Integer> r : CLOUD) {
 			for (int i : r) {
 				if (i == 1) {
+					// Create a block at current (col, row)
 					cloudBlock = new Block(new Vector2(col, row),
 							Vector2.ZERO,
 							new RectangleRenderable(ColorSupplier.approximateMonoColor(
 									BASE_CLOUD_COLOR)));
-					addCloudeBlock(cloudBlock, cycleLength);
-					cloud.add(cloudBlock);
-					saveRow.add(cloudBlock);
+					addCloudeBlock(cloudBlock, cycleLength); // Apply animation/timing
+					cloud.add(cloudBlock); // Add to return list
+					saveRow.add(cloudBlock); // Save for drop tracking
 				}
-				col = col + SIZE_OF_BLOCK;
+				col = col + SIZE_OF_BLOCK; // Move to next column
 			}
+
+			//move forward
 			this.drops.add(saveRow);
 			saveRow = new ArrayList<>();
 			col = topLeftCorner.x();
@@ -76,6 +93,7 @@ public class Cloud implements AvatarJumpObserver {
 		return cloud;
 	}
 
+	//Adds animation and sets coordinate space for the given cloud block.
 	private void addCloudeBlock(Block cloudBlock, float cycleLength) {
 		new Transition<Float>(
 				cloudBlock, // the game object being changed
@@ -92,8 +110,11 @@ public class Cloud implements AvatarJumpObserver {
 
 	@Override
 	public void update() {
+
 		for (List<GameObject> row : this.drops) {
 			for (GameObject col:row){
+
+				//creating the rain
 				if(this.rand.nextInt(RANDOM_BOUND)<= DROPS_DENSITY){
 					Drop drop = new Drop(col.getTopLeftCorner(),
 							new Vector2(SIZE_OF_DROPS,SIZE_OF_DROPS)
@@ -104,6 +125,8 @@ public class Cloud implements AvatarJumpObserver {
 			}
 		}
 	}
+
+	//creating transition for each drop
 	private void addDrop(Drop drop,int layer){
 		/*new Transition<Float>(
 				drop, // the game object being changed
@@ -114,6 +137,7 @@ public class Cloud implements AvatarJumpObserver {
 				DROP_CYCLE, // transition fully over half a day
 				Transition.TransitionType.TRANSITION_ONCE, ///////////////////
 				null);*/
+
 		new Transition<Float>(drop, drop.renderer()::setOpaqueness, INITIAL_DROP, DROP_FINALE
 				, Transition.CUBIC_INTERPOLATOR_FLOAT, DROP_CYCLE, Transition.TransitionType.TRANSITION_ONCE,
 				()->this.removeGameObject.accept(drop, layer));
