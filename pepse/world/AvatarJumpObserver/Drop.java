@@ -6,6 +6,7 @@ import danogl.util.Vector2;
 
 /**
  * class representing a single drop
+ *
  * @author Eliyahu & Rom
  */
 public class Drop extends GameObject {
@@ -27,6 +28,11 @@ public class Drop extends GameObject {
 	}
 
 	@Override
+	/**
+	 * Updates the drop every frame.
+	 *
+	 * @param deltaTime Time elapsed since the last frame.
+	 */
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 	}

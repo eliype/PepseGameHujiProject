@@ -9,7 +9,7 @@ import danogl.util.Vector2;
 import java.awt.*;
 
 public class Sky extends GameObject {
-
+	private static final String SKY_TAG = "sky";
 	private static final Color BASIC_SKY_COLOR = Color.decode("#80C6E5");
 
 	/**
@@ -25,6 +25,13 @@ public class Sky extends GameObject {
 		super(topLeftCorner, dimensions, renderable);
 	}
 
+	/**
+	 * Creates a sky GameObject that fills the entire window with a sky-blue color
+	 * and moves with the camera.
+	 *
+	 * @param windowDimensions The dimensions of the game window.
+	 * @return A GameObject representing the sky.
+	 */
 	public static GameObject create(Vector2 windowDimensions){
 
 		GameObject sky = new GameObject(Vector2.ZERO,windowDimensions,
@@ -33,7 +40,7 @@ public class Sky extends GameObject {
 		// object moves with the camera
 		sky.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
 
-		sky.setTag("sky");
+		sky.setTag(SKY_TAG);
 
 		//return object sky
 		return sky;

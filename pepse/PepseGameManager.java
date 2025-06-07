@@ -38,6 +38,7 @@ public class PepseGameManager extends GameManager {
 	private static final String LEAF_TAG = "leaf";
 	private static final String ROOT_TAG = "root";
 	private static final String FRUIT_TAG = "fruit";
+	private static final String TITLE = "pepse";
 	private UserInputListener inputListener;
 	private WindowController windowController;
 	private List<GameObject> removeObjects;
@@ -47,13 +48,10 @@ public class PepseGameManager extends GameManager {
 	private Avatar avatar;
 
 	/**
-	 * constructor
-	 *
-	 * @param windowTitle      string with window title
-	 * @param windowDimensions the window dimensions
+	 * Constructor initializing the game manager and setting the game title and screen size
 	 */
-	public PepseGameManager(String windowTitle, Vector2 windowDimensions) {
-		super(windowTitle, windowDimensions);
+	public PepseGameManager() {
+		super(TITLE, new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.removeObjects = new ArrayList<>();
 		this.rightGround = null;
 		this.leftGround = null;
@@ -137,8 +135,6 @@ public class PepseGameManager extends GameManager {
 
 	// adding list of block representing a ground, to the game
 	private void setGround(List<Block> groundList) {
-		//List<Block> groundList = terrain.createInRange(0,
-		//	(int) windowController.getWindowDimensions().x());
 		//adding each block
 		for (Block ground : groundList) {
 			ground.setTag(BLOCK_TAG);
@@ -148,7 +144,7 @@ public class PepseGameManager extends GameManager {
 
 	}
 
-
+	/* Add forest elements (leaf, root, fruit) to appropriate layer */
 	private void addForestObjects(List<GameObject> gameObjects) {
 		for (GameObject obj : gameObjects) {
 			if (obj.getTag().equals(LEAF_TAG)) {
@@ -161,8 +157,8 @@ public class PepseGameManager extends GameManager {
 		}
 	}
 
+	/* Adds cloud blocks to the background layer */
 	private void addCloude(Cloud cloud) {
-		//List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), dayCycle);
 		List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), 3);
 		for (Block cloudPart : blocks) {
 			gameObjects().addGameObject(cloudPart, Layer.BACKGROUND);
@@ -170,51 +166,37 @@ public class PepseGameManager extends GameManager {
 	}
 
 	@Override
+	/** Called every frame to update game logic */
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT)
 		) {
-			//	System.out.println("right");
+
 			if (this.rightGround == null) {
-				System.out.println("build");
-				this.rightGround = new Vector2((int)(this.middleGround.y()),(int)(this.middleGround.y()+SCREEN_WIDTH));
-				this.expandScreen((int)this.rightGround.x(),(int)this.rightGround.y());
+				this.rightGround = new Vector2((int) (this.middleGround.y()), (int) (this.middleGround.y() + SCREEN_WIDTH));
+				this.expandScreen((int) this.rightGround.x(), (int) this.rightGround.y());
 			}
 
-			//this.removeObjects(this.camera().getTopLeftCorner().x()
-			//		, this.camera().getTopLeftCorner().x() + BLOCK_SIZE);
 
-			//this.expandScreen((int) (this.camera().getTopLeftCorner().x() + SCREEN_WIDTH - BLOCK_SIZE)
-			//		, (int) this.camera().getTopLeftCorner().x() + (int) SCREEN_WIDTH);
 		}
 		if (inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
-			//	System.out.println("left");
 
-			//this.removeObjects(
-			//		this.camera().getTopLeftCorner().x() + SCREEN_WIDTH - BLOCK_SIZE
-			//		, this.camera().getTopLeftCorner().x() + SCREEN_WIDTH);
-			//this.expandScreen((int) this.camera().getTopLeftCorner().x()
-				//	, (int) this.camera().getTopLeftCorner().x() + (int) BLOCK_SIZE);
 			if (this.leftGround == null) {
-				System.out.println("build");
-
-				this.leftGround = new Vector2((int)(this.middleGround.x()-SCREEN_WIDTH),(int)(this.middleGround.x()));
-				this.expandScreen((int)this.leftGround.x(),(int)this.leftGround.y());
+				this.leftGround = new Vector2((int) (this.middleGround.x() - SCREEN_WIDTH), (int) (this.middleGround.x()));
+				this.expandScreen((int) this.leftGround.x(), (int) this.leftGround.y());
 			}
 
 		}
-		if(this.avatar.getCenter().x()<this.middleGround.x()){
-			if (this.rightGround!=null){
-				System.out.println("remove right"+this.rightGround);
+		if (this.avatar.getCenter().x() < this.middleGround.x()) {
+			if (this.rightGround != null) {
 				this.removeObjects(this.rightGround);
 			}
 			this.rightGround = this.middleGround;
 			this.middleGround = this.leftGround;
 			this.leftGround = null;
 		}
-		if (this.middleGround.y()<this.avatar.getCenter().x()){
-			if (this.leftGround!=null){
-				System.out.println("remove left"+this.leftGround);
+		if (this.middleGround.y() < this.avatar.getCenter().x()) {
+			if (this.leftGround != null) {
 				this.removeObjects(this.leftGround);
 			}
 			this.leftGround = this.middleGround;
@@ -224,19 +206,21 @@ public class PepseGameManager extends GameManager {
 		}
 	}
 
+	/* Track blocks to remove later when they go out of screen */
 	private void addToRemoveObjectList(List<Block> list) {
 		for (Block obj : list) {
 			this.removeObjects.add(obj);
 		}
 	}
 
+	/* Add general game objects (leaves, trees, fruit) to removal list */
 	private void addGameObjectToRemoveGameObjectList(List<GameObject> list) {
 		for (GameObject obj : list) {
-			//System.out.println(obj.getTag());
 			this.removeObjects.add(obj);
 		}
 	}
 
+	/* Remove objects that are in a specified range */
 	private void removeObjects(Vector2 vec) {
 		Boolean inRange;
 		for (GameObject obj : this.removeObjects) {
@@ -257,6 +241,7 @@ public class PepseGameManager extends GameManager {
 		}
 	}
 
+	/* Expand the world by adding terrain and trees in new range */
 	private void expandScreen(int minX, int maxX) {
 		Terrain terrain = new Terrain(windowController.getWindowDimensions(), 10);
 		List<Block> groundList = terrain.createInRange(minX, maxX);
@@ -268,11 +253,14 @@ public class PepseGameManager extends GameManager {
 		this.addGameObjectToRemoveGameObjectList(forest);
 	}
 
-
-
+	/**
+	 * Launch the game
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 
-		new PepseGameManager("pepse", new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT)).run();
+		new PepseGameManager().run();
 	}
 
 

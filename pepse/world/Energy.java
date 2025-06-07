@@ -7,9 +7,16 @@ import danogl.util.Vector2;
 
 import java.util.function.Supplier;
 
+/**
+ * Represents an energy display UI element in the game.
+ * The energy value is dynamically updated and shown
+ * as a percentage on the screen.
+ */
 public class Energy extends GameObject {
+	private static String PRECENT = "%";
 	private Supplier<Integer> energy;
 	private TextRenderable renderable;
+
 	/**
 	 * Construct a new GameObject instance.
 	 *
@@ -20,17 +27,21 @@ public class Energy extends GameObject {
 	 *                      the GameObject will not be rendered.
 	 */
 	public Energy(Vector2 topLeftCorner, Vector2 dimensions,
-				  TextRenderable renderable,Supplier<Integer> energy) {
+				  TextRenderable renderable, Supplier<Integer> energy) {
 		super(topLeftCorner, dimensions, renderable);
 		this.renderable = renderable;
 		this.energy = energy;
 	}
 
 	@Override
+	/**
+	 * Updates the displayed energy percentage based on the current energy value.
+	 *
+	 * @param deltaTime Time passed since the last frame (in seconds).
+	 */
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-		//System.out.println(this.energy.get());
-		this.renderable.setString(Integer.toString(this.energy.get())+"%");
+		this.renderable.setString(Integer.toString(this.energy.get()) + PRECENT);
 	}
 
 

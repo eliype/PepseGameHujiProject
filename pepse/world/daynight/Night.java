@@ -13,6 +13,7 @@ import java.awt.*;
  * class representing night.
  * created by a black block which fade through a specific
  * time.
+ *
  * @author Eliyahu & Rom
  */
 public class Night {
@@ -22,6 +23,15 @@ public class Night {
 
 	private static final Float MIDNIGHT_OPACITY = 0.5f;
 
+	/**
+	 * Creates and returns a new Night GameObject covering the entire screen.
+	 * The opacity of the overlay will continuously transition between transparent and midnight opacity,
+	 * creating a night-day fading effect.
+	 *
+	 * @param windowDimensions the dimensions of the window the overlay should cover.
+	 * @param cycleLength      the duration  of a full opacity cycle .
+	 * @return a GameObject representing the night overlay with the opacity transition applied.
+	 */
 	public static GameObject create(Vector2 windowDimensions,
 									float cycleLength) {
 		Renderable rectangle = new RectangleRenderable(Color.BLACK);

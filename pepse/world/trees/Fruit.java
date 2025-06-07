@@ -7,12 +7,16 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.world.Avatar;
 
+/**
+ * Represents a fruit object in the game world that can be collected by the avatar.
+ * When the avatar collides with the fruit, it increases the avatar's energy by a fixed amount.
+ * After being collected, the fruit temporarily disappears and then reappears after a delay.
+ */
 public class Fruit extends GameObject {
 	private static final String AVATAR_TAG = "avatar";
 	private static final int WAITING_TIME = 30;
 	private static final int ADD_ENERGY_AVATAR = 10;
 	private static final int MAX_ENERGY = 100;
-
 
 
 	/**
@@ -29,13 +33,22 @@ public class Fruit extends GameObject {
 	}
 
 	@Override
+	/**
+	 * Handles the collision event with another GameObject.
+	 * If the other object is the avatar and the fruit is currently visible,
+	 * increases the avatar's energy (up to a maximum), makes the fruit temporarily invisible,
+	 * and schedules the fruit to reappear after a waiting period.
+	 *
+	 * @param other     The other GameObject involved in the collision.
+	 * @param collision The collision information.
+	 */
 	public void onCollisionEnter(GameObject other, Collision collision) {
 		super.onCollisionEnter(other, collision);
 		if (other.getTag().equals(AVATAR_TAG) &&
-				this.renderer().getRenderable()!=null) {
-			Avatar avatar = (Avatar)other;
+				this.renderer().getRenderable() != null) {
+			Avatar avatar = (Avatar) other;
 			avatar.setEnergy(Math.min(
-					avatar.getEnergy()+ADD_ENERGY_AVATAR,MAX_ENERGY));
+					avatar.getEnergy() + ADD_ENERGY_AVATAR, MAX_ENERGY));
 			Renderable originalRenderable = this.renderer().getRenderable();
 			this.renderer().setRenderable(null);
 			new ScheduledTask(

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Terrain {
 
 	// color for ground block
@@ -29,13 +28,14 @@ public class Terrain {
 	/**
 	 * constructor.
 	 * initialize all parameters
+	 *
 	 * @param windowDimensions the window dimensions
-	 * @param seed int for generating random numbers
+	 * @param seed             int for generating random numbers
 	 */
-	public Terrain(Vector2 windowDimensions, int seed){
+	public Terrain(Vector2 windowDimensions, int seed) {
 
 		this.windowDimensions = windowDimensions;
-		this.groundHeightAtX0 = windowDimensions.mult((float) 2/3).y();
+		this.groundHeightAtX0 = windowDimensions.mult((float) 2 / 3).y();
 		this.noiseGenerator = new NoiseGenerator(seed, (int) groundHeightAtX0);
 
 	}
@@ -52,7 +52,7 @@ public class Terrain {
 	 */
 	public float groundHeightAt(float x) {
 
-		if(x != 0) {
+		if (x != 0) {
 			// Generate noise value at the given x and a fixed y-coordinate (Block.SIZE * 7)
 			float noise = (float) this.noiseGenerator.noise(x, Block.SIZE * 7);
 			// Add the noise value to the base ground height and return it
@@ -74,7 +74,7 @@ public class Terrain {
 	 * @param maxX the maximum x-coordinate (exclusive) of the range
 	 * @return a list of objects representing the ground in the specified range
 	 */
-	public List<Block> createInRange(int minX, int maxX){
+	public List<Block> createInRange(int minX, int maxX) {
 		// Adjust minX and maxX to align with block boundaries
 		int newMinX = (int) Math.floor((double) minX / Block.SIZE) * Block.SIZE;
 		int newMaxX = (int) Math.ceil((double) maxX / Block.SIZE) * Block.SIZE;
@@ -85,17 +85,17 @@ public class Terrain {
 		List<Block> groundList = new ArrayList<>();
 
 		// Loop over x positions in the adjusted range, step by block size
-		for(int i = newMinX; i < newMaxX; i += Block.SIZE){
-			 groundRenderable =
+		for (int i = newMinX; i < newMaxX; i += Block.SIZE) {
+			groundRenderable =
 					new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
 			int blockHeight = (int) (Math.floor(groundHeightAt(i) / Block.SIZE) * Block.SIZE);
 
 			// Create a column of blocks downwards from blockHeight to TERRAIN_DEPTH
-			for(int j = 0 ; j < TERRAIN_DEPTH ; j +=1){
+			for (int j = 0; j < TERRAIN_DEPTH; j += 1) {
 				groundRenderable =
 						new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
 				groundList.add(new Block(new Vector2(i, j * Block.SIZE + blockHeight),
-						windowDimensions,groundRenderable));
+						groundRenderable));
 
 			}
 

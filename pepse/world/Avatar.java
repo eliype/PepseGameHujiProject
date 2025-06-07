@@ -12,13 +12,16 @@ import pepse.world.AvatarJumpObserver.AvatarJumpObserver;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+/**
+ * Represents the main player character in the game, capable of moving, jumping,
+ * and displaying different animations based on its state and user input.
+ * The avatar's actions consume energy, which regenerates when idle.
+ */
 public class Avatar extends GameObject {
 	private static final int SIZE = 30;
 	private static final int TEN = 10;
 	private static final int ROUND = 16;
 	private static final float HALF = 0.5f;
-	private static final float MOVEMENT_SPEED = 180;// Pixels per second
-	private static final float SIX_HUNDRED = 970;// Max X position
 	private static final String TAG = "avatar";
 	private static final String BLOCK_TAG = "block";
 	private static final String IMAGE_PATH = "src/assets/run_0.png";
@@ -52,6 +55,13 @@ public class Avatar extends GameObject {
 	private AnimationRenderable idle;
 	private ArrayList<AvatarJumpObserver> jumpObserver;
 
+	/**
+	 * Constructs a new Avatar instance.
+	 *
+	 * @param topLeftCorner The top-left corner position of the avatar in game coordinates.
+	 * @param inputListener Listener for user input events (e.g., keyboard).
+	 * @param imageReader   Utility to read images used for avatar animations.
+	 */
 	public Avatar(Vector2 topLeftCorner,
 				  UserInputListener inputListener,
 				  ImageReader imageReader) {
@@ -96,68 +106,15 @@ public class Avatar extends GameObject {
 
 
 	@Override
+	/**
+	 * Updates the avatar state every frame.
+	 * Handles movement, jumping, energy consumption and regeneration,
+	 * and updates the animation according to the current state and inputs.
+	 *
+	 * @param deltaTime Time elapsed since the last frame (in seconds).
+	 */
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-		/*float xVel = 0;
-		//this.mode = Moves.IDLE;
-		boolean isIdle = true;
-		if (this.mode.equals(Moves.UP) && this.getVelocity().y()!=0){
-			isIdle = false;
-		}
-		if (inputListener.isKeyPressed(KeyEvent.VK_LEFT)
-		) {
-			if (this.energy > 0) {
-				xVel -= VELOCITY_X;
-
-				if (this.getVelocity().y() == 0) {
-					renderer().setRenderable(run);
-					renderer().setIsFlippedHorizontally(true);////////
-				} else {
-					renderer().setRenderable(this.jump);
-					renderer().setIsFlippedHorizontally(true);
-				}
-			}
-			this.mode = Moves.RUN;
-			isIdle = false;
-
-		}
-		if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
-			if (this.energy > 0) {
-				xVel += VELOCITY_X;
-
-				if (this.getVelocity().y() == 0) {
-					renderer().setRenderable(this.run);
-					renderer().setIsFlippedHorizontally(false);////////
-				} else {
-					renderer().setRenderable(this.jump);
-					renderer().setIsFlippedHorizontally(false);
-				}
-			}
-			this.mode = Moves.RUN;
-			isIdle = false;
-
-		}
-		transform().setVelocityX(xVel);
-		if (inputListener.isKeyPressed(KeyEvent.VK_SPACE)
-		) {
-			if (this.energy > 0 && this.energy >= TEN && getVelocity().y() == 0) {
-				transform().setVelocityY(VELOCITY_Y);
-				renderer().setRenderable(this.jump);
-				this.mode = Moves.JUMP;
-			} else {
-				this.mode = Moves.UP;
-			}
-			isIdle = false;
-
-		}
-		if (isIdle) {
-			renderer().setRenderable(this.idle);
-			this.mode = Moves.IDLE;
-		}
-		if(this.getVelocity().equals(Vector2.ZERO)){
-			renderer().setRenderable(this.idle);
-		}
-		this.movesSetter();*/
 		float xVel = 0;
 		//this.mode = Moves.IDLE;
 		boolean isIdle = true;
@@ -228,7 +185,9 @@ public class Avatar extends GameObject {
 
 	}
 
-
+	/*
+	 *switch between the energy modes
+	 */
 	private void movesSetter() {
 		switch (this.mode) {
 			case RUN:
@@ -248,6 +207,13 @@ public class Avatar extends GameObject {
 	}
 
 	@Override
+	/**
+	 * Handles collision with other game objects.
+	 * Specifically, stops vertical velocity when colliding with blocks to simulate landing.
+	 *
+	 * @param other     The other game object involved in the collision.
+	 * @param collision Information about the collision event.
+	 */
 	public void onCollisionEnter(GameObject other, Collision collision) {
 		super.onCollisionEnter(other, collision);
 		if (other.getTag().equals(BLOCK_TAG)) {
@@ -255,20 +221,38 @@ public class Avatar extends GameObject {
 		}
 	}
 
-
+	/**
+	 * Sets the avatar's energy level.
+	 *
+	 * @param energy The new energy value to set.
+	 */
 	public void setEnergy(int energy) {
 		this.energy = energy;
 	}
 
+	/**
+	 * Gets the current energy level of the avatar.
+	 *
+	 * @return The avatar's current energy as an integer.
+	 */
 	public int getEnergy() {
 		return (int) this.energy;
 	}
 
+	/**
+	 * Registers an observer that will be notified whenever the avatar jumps.
+	 *
+	 * @param jumpObserver The observer to register.
+	 */
 	public void registerObserverToLocation(AvatarJumpObserver jumpObserver) {
 		this.jumpObserver.add(jumpObserver);
 	}
-	private void updateAvatarJumpObserver(){
-		for (AvatarJumpObserver observer : this.jumpObserver){
+
+	/*
+	 * update the avatar observer when the avatar jump
+	 */
+	private void updateAvatarJumpObserver() {
+		for (AvatarJumpObserver observer : this.jumpObserver) {
 			observer.update();
 		}
 	}
