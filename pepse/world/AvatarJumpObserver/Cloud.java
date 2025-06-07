@@ -20,11 +20,13 @@ import java.util.function.Consumer;
  * class representing a cloud.
  * when avatar jump the cloud is raining
  *
- * @author Eliyahu & Rom
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Cloud implements AvatarJumpObserver {
 	private static final int SIZE_OF_BLOCK = 30;
 	private static final int SIZE_OF_DROPS = 8;
+	private static final int SIXSTY = 60;
+	private static final int SEVEN = 7;
 	private static final Color BASE_CLOUD_COLOR =
 			new Color(255, 255, 255);
 	private static final int DROPS_DENSITY = 3;
@@ -104,11 +106,11 @@ public class Cloud implements AvatarJumpObserver {
 
 	//Adds animation and sets coordinate space for the given cloud block.
 	private void addCloudeBlock(Block cloudBlock) {
-		float start = cloudBlock.getTopLeftCorner().x() - Block.SIZE * 7;
+		float start = cloudBlock.getTopLeftCorner().x() - Block.SIZE * SEVEN;
 		new Transition<Float>(cloudBlock,
 				cloudBlock.transform()::setTopLeftCornerX,
-				start, SCREEN_WIDTH + Block.SIZE * 7 + start,
-				Transition.LINEAR_INTERPOLATOR_FLOAT, (SCREEN_WIDTH + Block.SIZE) / 60,
+				start, SCREEN_WIDTH + Block.SIZE * SEVEN + start,
+				Transition.LINEAR_INTERPOLATOR_FLOAT, (SCREEN_WIDTH + Block.SIZE) / SIXSTY,
 				Transition.TransitionType.TRANSITION_LOOP,
 				null);
 		cloudBlock.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);

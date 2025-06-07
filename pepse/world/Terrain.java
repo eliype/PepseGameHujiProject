@@ -10,7 +10,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Represents the terrain of the world,
+ * including generating ground height and blocks.
+ *  @author Eliyahu Peretz & Rom Ilany
+ */
 public class Terrain {
 
 	// color for ground block
@@ -18,6 +22,9 @@ public class Terrain {
 	//private static final Color BASE_GROUND_COLOR = Color.BLACK;
 	// amount of block beneath the top
 	private static final int TERRAIN_DEPTH = 20;
+	private static final int SEVEN = 7;
+	private static final int THREE = 3;
+	private static final int TWO = 2;
 	private final float groundHeightAtX0;
 
 	//parameters
@@ -35,7 +42,7 @@ public class Terrain {
 	public Terrain(Vector2 windowDimensions, int seed) {
 
 		this.windowDimensions = windowDimensions;
-		this.groundHeightAtX0 = windowDimensions.mult((float) 2 / 3).y();
+		this.groundHeightAtX0 = windowDimensions.mult((float) TWO / THREE).y();
 		this.noiseGenerator = new NoiseGenerator(seed, (int) groundHeightAtX0);
 
 	}
@@ -54,7 +61,7 @@ public class Terrain {
 
 		if (x != 0) {
 			// Generate noise value at the given x and a fixed y-coordinate (Block.SIZE * 7)
-			float noise = (float) this.noiseGenerator.noise(x, Block.SIZE * 7);
+			float noise = (float) this.noiseGenerator.noise(x, Block.SIZE * SEVEN);
 			// Add the noise value to the base ground height and return it
 			return groundHeightAtX0 + noise;
 			//return groundHeightAtX0-noise;

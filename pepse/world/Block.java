@@ -8,9 +8,10 @@ import danogl.util.Vector2;
 /**
  * Represents a single block in the terrain.
  * Blocks are square, immovable, and can be rendered with a given texture or color.
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Block extends GameObject {
-	/* The width and height of a single block in pixels. */
+	/** The width and height of a single block in pixels. */
 	public static final int SIZE = 30;
 
 	/**

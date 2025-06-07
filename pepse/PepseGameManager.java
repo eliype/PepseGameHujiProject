@@ -26,9 +26,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+/**
+ * The PepseGameManager class is responsible for initializing and managing
+ * the Pepse game environment.
+ * It handles the creation and organization of the game world, including terrain,
+ * day-night cycle, sun, avatar, energy bar, forest (flora), and clouds.
+ * It also handles dynamic expansion of the game world when the player moves
+ * left or right and manages removal of game objects that are no longer visible.
+ *
+ * @author Eliyahu Peretz & Rom Ilany
+ */
 public class PepseGameManager extends GameManager {
-	private static final float dayCycle = 30;
+	private static final float DAY_CYCLE = 30;
+	private static final int TEN = 10;
+	private static final int THREE = 3;
 	private static final float BLOCK_SIZE = 30;
+	private static final float HALF = 0.5f;
 	private static final int AVATER_X_PLACE = 450;
 	private static final int ENERGY_SIZE = 30;
 	private static final String BLOCK_TAG = "block";
@@ -57,6 +70,8 @@ public class PepseGameManager extends GameManager {
 		this.leftGround = null;
 	}
 
+
+	@Override
 	/**
 	 * @param imageReader      Contains a single method: readImage, which reads an image from disk.
 	 *                         See its documentation for help.
@@ -68,7 +83,6 @@ public class PepseGameManager extends GameManager {
 	 * @param windowController Contains an array of helpful, self explanatory methods
 	 *                         concerning the window.
 	 */
-	@Override
 	public void initializeGame(ImageReader imageReader,
 							   SoundReader soundReader,
 							   UserInputListener inputListener,
@@ -83,7 +97,7 @@ public class PepseGameManager extends GameManager {
 		gameObjects().addGameObject(sky, Layer.BACKGROUND);
 
 		//set the ground
-		Terrain terrain = new Terrain(windowController.getWindowDimensions(), 10);
+		Terrain terrain = new Terrain(windowController.getWindowDimensions(), TEN);
 		List<Block> groundList = terrain.createInRange(0,
 				(int) windowController.getWindowDimensions().x());
 		setGround(groundList);
@@ -93,10 +107,10 @@ public class PepseGameManager extends GameManager {
 
 		// add Night
 		gameObjects().addGameObject(Night.create(windowController.
-				getWindowDimensions(), dayCycle), Layer.BACKGROUND);
+				getWindowDimensions(), DAY_CYCLE), Layer.BACKGROUND);
 		//add sun
 		GameObject sun = Sun.create(windowController.
-				getWindowDimensions(), dayCycle);
+				getWindowDimensions(), DAY_CYCLE);
 		gameObjects().addGameObject(SunHalo.create(sun), Layer.BACKGROUND);
 		gameObjects().addGameObject(sun, Layer.BACKGROUND);
 
@@ -105,7 +119,8 @@ public class PepseGameManager extends GameManager {
 				terrain.groundHeightAt(AVATER_X_PLACE)), inputListener, imageReader);
 		gameObjects().addGameObject(avatar, Layer.DEFAULT);
 
-		setCamera(new Camera(avatar, windowController.getWindowDimensions().mult(0.5f).subtract(avatar.getTopLeftCorner()),
+		setCamera(new Camera(avatar, windowController.getWindowDimensions()
+				.mult(HALF).subtract(avatar.getTopLeftCorner()),
 				windowController.getWindowDimensions(),
 				windowController.getWindowDimensions()));
 		//add energy
@@ -159,7 +174,7 @@ public class PepseGameManager extends GameManager {
 
 	/* Adds cloud blocks to the background layer */
 	private void addCloude(Cloud cloud) {
-		List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), 3);
+		List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), THREE);
 		for (Block cloudPart : blocks) {
 			gameObjects().addGameObject(cloudPart, Layer.BACKGROUND);
 		}
@@ -173,7 +188,8 @@ public class PepseGameManager extends GameManager {
 		) {
 
 			if (this.rightGround == null) {
-				this.rightGround = new Vector2((int) (this.middleGround.y()), (int) (this.middleGround.y() + SCREEN_WIDTH));
+				this.rightGround = new Vector2((int) (this.middleGround.y()),
+						(int) (this.middleGround.y() + SCREEN_WIDTH));
 				this.expandScreen((int) this.rightGround.x(), (int) this.rightGround.y());
 			}
 
@@ -182,7 +198,8 @@ public class PepseGameManager extends GameManager {
 		if (inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
 
 			if (this.leftGround == null) {
-				this.leftGround = new Vector2((int) (this.middleGround.x() - SCREEN_WIDTH), (int) (this.middleGround.x()));
+				this.leftGround = new Vector2((int) (this.middleGround.x() - SCREEN_WIDTH),
+						(int) (this.middleGround.x()));
 				this.expandScreen((int) this.leftGround.x(), (int) this.leftGround.y());
 			}
 
@@ -243,7 +260,7 @@ public class PepseGameManager extends GameManager {
 
 	/* Expand the world by adding terrain and trees in new range */
 	private void expandScreen(int minX, int maxX) {
-		Terrain terrain = new Terrain(windowController.getWindowDimensions(), 10);
+		Terrain terrain = new Terrain(windowController.getWindowDimensions(), TEN);
 		List<Block> groundList = terrain.createInRange(minX, maxX);
 		setGround(groundList);
 		this.addToRemoveObjectList(groundList);

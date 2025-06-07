@@ -16,12 +16,14 @@ import java.util.ArrayList;
  * Represents the main player character in the game, capable of moving, jumping,
  * and displaying different animations based on its state and user input.
  * The avatar's actions consume energy, which regenerates when idle.
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Avatar extends GameObject {
 	private static final int SIZE = 30;
 	private static final int TEN = 10;
 	private static final int ROUND = 16;
 	private static final float HALF = 0.5f;
+	private static final int HUNDRED = 100;
 	private static final String TAG = "avatar";
 	private static final String BLOCK_TAG = "block";
 	private static final String IMAGE_PATH = "src/assets/run_0.png";
@@ -65,12 +67,13 @@ public class Avatar extends GameObject {
 	public Avatar(Vector2 topLeftCorner,
 				  UserInputListener inputListener,
 				  ImageReader imageReader) {
-		super(new Vector2(topLeftCorner.x(), topLeftCorner.y() - (SIZE + ROUND)), new Vector2(SIZE, SIZE), imageReader.readImage(
+		super(new Vector2(topLeftCorner.x(), topLeftCorner.y() - (SIZE + ROUND)),
+				new Vector2(SIZE, SIZE), imageReader.readImage(
 				IMAGE_PATH, false));
 		this.inputListener = inputListener;
 		this.setTag(TAG);
 		this.mode = Moves.IDLE;
-		this.energy = 100;
+		this.energy = HUNDRED;
 		physics().preventIntersectionsFromDirection(Vector2.ZERO);
 		transform().setAccelerationY(GRAVITY);
 		Renderable[] clips = {imageReader.readImage(

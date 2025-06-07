@@ -22,7 +22,7 @@ import java.util.function.Function;
 /**
  * class responsible for creating a forest full of trees.
  * creating the root and the plants e.g.
- *
+ *  @author Eliyahu Peretz & Rom Ilany
  *
  */
 public class Flora {

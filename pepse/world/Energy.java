@@ -11,9 +11,10 @@ import java.util.function.Supplier;
  * Represents an energy display UI element in the game.
  * The energy value is dynamically updated and shown
  * as a percentage on the screen.
+ * @author Eliyahu & Rom
  */
 public class Energy extends GameObject {
-	private static String PRECENT = "%";
+	private static final String PRECENT = "%";
 	private Supplier<Integer> energy;
 	private TextRenderable renderable;
 

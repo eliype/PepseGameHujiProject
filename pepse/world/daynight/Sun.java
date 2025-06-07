@@ -11,10 +11,11 @@ import java.awt.*;
 
 /**
  * Represents the sun object with circular orbital animation.
- * @author Eliyahu & Rom
+ *  @author Eliyahu Peretz & Rom Ilany
  */
 public class Sun {
 	private static final float TWO = 2;
+	private static final float THREE = 3;
 	private static final float FIVE = 5;
 	private static final String TAG = "sun";
 	private static final int SUN_SIZE = 50;
@@ -41,7 +42,7 @@ public class Sun {
 		sun.setTag(TAG);
 
 		// vec for Orbiting center in lower center of screen
-		Vector2 vec = new Vector2(windowDimensions.x() / TWO, windowDimensions.mult((float) 2 / 3).y());
+		Vector2 vec = new Vector2(windowDimensions.x() / TWO, windowDimensions.mult((float) TWO / THREE).y());
 
 		// Animate rotation around vec
 		new Transition<Float>(

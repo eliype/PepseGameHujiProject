@@ -10,6 +10,7 @@ import pepse.world.Block;
  * Represents a leaf block in the game world that animates by gently
  * swaying (rotating) and shrinking horizontally over a repeating cycle.
  * The leaf is implemented as a subclass of Block.
+ *  @author Eliyahu Peretz & Rom Ilany
  */
 public class Leaf extends Block {
 	private static final float FINAL_WIDTH = 0.85f;
