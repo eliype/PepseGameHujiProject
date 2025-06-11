@@ -1,6 +1,7 @@
 package pepse.world.AvatarJumpObserver;
 
 import danogl.GameObject;
+import danogl.components.Transition;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
@@ -34,6 +35,7 @@ public class Drop extends GameObject {
 	 * @param deltaTime Time elapsed since the last frame.
 	 */
 	public void update(float deltaTime) {
+
 		super.update(deltaTime);
 	}
 }

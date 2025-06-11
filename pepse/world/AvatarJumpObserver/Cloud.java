@@ -25,7 +25,7 @@ import java.util.function.Consumer;
 public class Cloud implements AvatarJumpObserver {
 	private static final int SIZE_OF_BLOCK = 30;
 	private static final int SIZE_OF_DROPS = 8;
-	private static final int SIXSTY = 60;
+	private static final int FIFTY = 50;
 	private static final int SEVEN = 7;
 	private static final Color BASE_CLOUD_COLOR =
 			new Color(255, 255, 255);
@@ -110,7 +110,7 @@ public class Cloud implements AvatarJumpObserver {
 		new Transition<Float>(cloudBlock,
 				cloudBlock.transform()::setTopLeftCornerX,
 				start, SCREEN_WIDTH + Block.SIZE * SEVEN + start,
-				Transition.LINEAR_INTERPOLATOR_FLOAT, (SCREEN_WIDTH + Block.SIZE) / SIXSTY,
+				Transition.LINEAR_INTERPOLATOR_FLOAT, (SCREEN_WIDTH + Block.SIZE) / FIFTY,
 				Transition.TransitionType.TRANSITION_LOOP,
 				null);
 		cloudBlock.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
@@ -123,8 +123,7 @@ public class Cloud implements AvatarJumpObserver {
 	 * Randomly generates raindrop objects beneath cloud blocks.
 	 * Drops are added to the background layer and fade out over time.
 	 */
-	public void update() {
-
+	public void updateWhenJump() {
 		for (List<GameObject> row : this.drops) {
 			for (GameObject col : row) {
 

@@ -1,0 +1,41 @@
+rom.ilany
+213127335
+
+In the tree package we created three classes,
+the first is the flora whose responsibility is
+to create the forest - the trees and the fruits
+and place them. In fact, we have a main method in
+it that randomly decides where to place the tree trunks,
+for each trunk the height is also randomly selected,
+and then according to the height we create a range to
+create the leaves, which we create randomly by a constant
+that defines the density of the leaves, and between the
+empty places where we did not put leaves, we place the
+fruits randomly again according to a constant
+that defines density. We created two additional
+classes Leaf,Fruit for the following reasons: First, it
+is an object, and since, as we learned, we will want to maintain
+encapsulation, meaning that each class has a defined and unique role.
+The role of the Flora class is to create our "forest"
+in the game, so creating the fruits and leaves is not its
+responsibility, so we will want to create different classes
+for them while maintaining a minimal API to the Flora class
+as part of our principles. This will also allow the code to
+be more readable since there are objects Instead of creating
+a block until we get the object itself, and the very act of
+creating these objects will make it easier for us to maintain
+the code because if we want to change a detail in a particular
+object, instead of searching for the appropriate line in Flora,
+which is loaded with actions and functions unrelated to that object,
+we can easily add a function to that object without too much effort.
+The Leaf class inherits from the Block class and is responsible for
+how the leaf itself works. That is, when you create the leaf, you
+add it to a ScheduledTask within that class. The process that will
+be performed at the time that will be passed to each leaf will be a
+callback to a function that was also created in the same class that
+contains the two transitions that are performed for each leaf: changing
+its width and moving its angle. The second class is Fruit, which inherits
+from GameObject, which detects when a collision occurs whether the object
+that collided is the avatar according to the tag, thus updating its energy,
+adding 10 percent to it, and in addition, the fruit will be updated to disappear
+for 10 seconds and prevent collisions with it as long as it disappears.

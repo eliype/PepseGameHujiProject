@@ -195,7 +195,11 @@ public class Avatar extends GameObject {
 		switch (this.mode) {
 			case RUN:
 				// code block
-				this.energy = Math.max(0, this.energy - HALF);
+				if(this.getVelocity().x()!=0) {
+					this.energy = Math.max(0, this.energy - HALF);
+				}else{
+					this.energy = Math.min(TEN * TEN, this.energy + 1);
+				}
 				break;
 			case JUMP:
 				this.energy = Math.max(0, this.energy - TEN);
@@ -256,7 +260,7 @@ public class Avatar extends GameObject {
 	 */
 	private void updateAvatarJumpObserver() {
 		for (AvatarJumpObserver observer : this.jumpObserver) {
-			observer.update();
+			observer.updateWhenJump();
 		}
 	}
 }

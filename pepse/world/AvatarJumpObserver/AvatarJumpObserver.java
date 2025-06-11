@@ -10,5 +10,5 @@ public interface AvatarJumpObserver {
 	 * Called to notify the observer that the avatar has jumped.
 	 * Implementing classes should define the response to this event.
 	 */
-	public void update();
+	public void updateWhenJump();
 }
