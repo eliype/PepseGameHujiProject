@@ -20,7 +20,7 @@ public class Night {
 	private static final String TAG = "night";
 	private static int diff = 0;
 	private static final float INITIAL_VALUE = 0.0f;
-
+	private static final float TWO = 2;
 	private static final Float MIDNIGHT_OPACITY = 0.5f;
 
 	/**
@@ -43,7 +43,7 @@ public class Night {
 
 		// Animate opaqueness between INITIAL_VALUE and MIDNIGHT_OPACITY
 		new Transition<Float>(night, night.renderer()::setOpaqueness, INITIAL_VALUE, MIDNIGHT_OPACITY
-				, Transition.CUBIC_INTERPOLATOR_FLOAT, cycleLength,
+				, Transition.CUBIC_INTERPOLATOR_FLOAT, cycleLength/TWO,
 				Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
 				null);
 

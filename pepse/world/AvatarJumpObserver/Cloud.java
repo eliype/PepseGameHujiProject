@@ -25,7 +25,7 @@ import java.util.function.Consumer;
 public class Cloud implements AvatarJumpObserver {
 	private static final int SIZE_OF_BLOCK = 30;
 	private static final int SIZE_OF_DROPS = 8;
-	private static final int FIFTY = 50;
+	private static final int TWENTY_FIVE = 25;
 	private static final int SEVEN = 7;
 	private static final Color BASE_CLOUD_COLOR =
 			new Color(255, 255, 255);
@@ -110,7 +110,7 @@ public class Cloud implements AvatarJumpObserver {
 		new Transition<Float>(cloudBlock,
 				cloudBlock.transform()::setTopLeftCornerX,
 				start, SCREEN_WIDTH + Block.SIZE * SEVEN + start,
-				Transition.LINEAR_INTERPOLATOR_FLOAT, (SCREEN_WIDTH + Block.SIZE) / FIFTY,
+				Transition.LINEAR_INTERPOLATOR_FLOAT, (SCREEN_WIDTH + Block.SIZE) / TWENTY_FIVE,
 				Transition.TransitionType.TRANSITION_LOOP,
 				null);
 		cloudBlock.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);

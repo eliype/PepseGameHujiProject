@@ -22,8 +22,8 @@ import java.util.function.Function;
 /**
  * class responsible for creating a forest full of trees.
  * creating the root and the plants e.g.
- *  @author Eliyahu Peretz & Rom Ilany
  *
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Flora {
 
@@ -66,101 +66,26 @@ public class Flora {
 	public List<GameObject> createInRange(int minX, int maxX) {
 		Random rand = new Random(Objects.hash(MY_SEED)); // Seeded for reproducibility
 		List<GameObject> forest = new ArrayList<>();
-
+		TreeFactory treeFactory = new TreeFactory();
 		for (int i = minX; i < maxX - ROOT_WIDTH; i = i + ROOT_WIDTH) {
 			if (rand.nextInt(ROOT_PLANT_RANDOM) == 0) {
-				this.buildRoot(i, forest); // Add root at position i
+				//this.buildRoot(i, forest); // Add root at position i
+				//treeFactory.buildTree(MY_SEED,i,this.getHeight.apply((float) i)).build();
+				this.addToForestList(forest,
+						treeFactory.buildTree(
+								MY_SEED, i, this.getHeight.apply((float) i)).build());
 			}
 		}
 		return forest;
 	}
-	/**
-	 * Builds a tree root GameObject at the specified x position and adds it to the forest list.
-	 * The height of the root is randomized.
-	 * Also initiates the creation of leaves around the root.
-	 *
-	 * @param x      the x-coordinate for the root's top-left corner.
-	 * @param forest the list of GameObjects to add the root (and later leaves) to.
-	 */
-	private void buildRoot(int x, List<GameObject> forest) {
-		Random rand = new Random(Objects.hash(x, MY_SEED));
-		int height = (ROOT_HEIGHT / TWO) + rand.nextInt(ROOT_HEIGHT / TWO);
-		float yPosition = this.getHeight.apply((float) x) - height;
-		Renderable rend = new RectangleRenderable(ROOT_COLOR);
-		GameObject root = new GameObject(new Vector2(x
-				, yPosition)
-				, new Vector2(ROOT_WIDTH, height), rend);
-		root.physics().preventIntersectionsFromDirection(Vector2.ZERO);
-		root.physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
-		root.setTag(ROOT_TAG);
-		forest.add(root);
-		this.buildLeafs(root, forest, x);
 
-	}
-	/**
-	 * Builds leaves (and sometimes fruits) around the given root.
-	 * Leaves are distributed in a grid-like pattern around the root with some randomness.
-	 *
-	 * @param root   the root GameObject to build leaves around.
-	 * @param forest the list of GameObjects to add the leaves and fruits to.
-	 * @param x      the x-coordinate used as a seed for random generation.
-	 */
-	private void buildLeafs(GameObject root, List<GameObject> forest, int x) {
-		Random rand = new Random(Objects.hash(x, MY_SEED));
-		Renderable rend = new RectangleRenderable(LEEFS_COLOR);
-		Leaf leaf;
-		int placeLeafStart = ((int) root.getTopLeftCorner().x() - (LEAF_BLOCK));
-		for (int i = ((int) root.getTopLeftCorner().y()) - (ROOT_HEIGHT / TWO);
-			 i < root.getCenter().y(); i = i + LEAF_SIZE) {
-			for (int j = placeLeafStart;
-				 j < placeLeafStart + LEAF_BLOCK + LEAF_BLOCK + ROOT_WIDTH; j = j + LEAF_SIZE) {
-				if (rand.nextInt(TEN) < LEAFS_DENSITY) {
-					leaf = new Leaf(new Vector2(j
-							, i)
-							, rend, rand.nextFloat(0f, 1));
-					leaf.setTag(LEAF_TAG);
-
-					forest.add(leaf);
-
-				} else {
-					this.addFruit(new Vector2(i, j), root, forest);
-				}
-			}
+	/*
+	copy the trees objects to the current GameObject list
+	*/
+	private void addToForestList(List<GameObject> forest, List<GameObject> tree) {
+		for (GameObject gameObject : tree) {
+			forest.add(gameObject);
 		}
-	}
-
-	/**
-	 * Adds a fruit GameObject at the given vector position, if conditions meet.
-	 * Fruits appear with some randomness and only within the bounds of the root.
-	 *
-	 * @param vec    the Vector2 representing the candidate position for the fruit.
-	 * @param root   the root GameObject to check if the fruit is within bounds.
-	 * @param forest the list of GameObjects to add the fruit to if created.
-	 */
-	private void addFruit(Vector2 vec, GameObject root, List<GameObject> forest) {
-		GameObject fruit;
-		Random rand = new Random(Objects.hash(vec.x(), vec.y(), MY_SEED));
-		if (rand.nextInt(TEN) <= FRUITS_DENSITY
-				&& this.inRoot(vec.x(), root)) {
-			Color[] fruitColor = {Color.red, Color.ORANGE};
-			fruit = new Fruit(new Vector2(vec.y()
-					, vec.x())
-					, new Vector2(LEAF_SIZE, LEAF_SIZE),
-					new OvalRenderable(fruitColor[rand.nextInt(fruitColor.length)]));
-			fruit.setTag(FRUIT_TAG);
-			forest.add(fruit);
-		}
-	}
-	/**
-	 * Checks whether the given vertical position is above the top of the root.
-	 *
-	 * @param i    the y-coordinate to check.
-	 * @param root the root GameObject.
-	 * @return true if the position I is above the top edge of the root, false otherwise.
-	 */
-	private Boolean inRoot(float i, GameObject root) {
-
-		return i < root.getTopLeftCorner().y();
 	}
 
 

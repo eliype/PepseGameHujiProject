@@ -26,6 +26,7 @@ public class Energy extends GameObject {
 	 * @param dimensions    Width and height in window coordinates.
 	 * @param renderable    The renderable representing the object. Can be null, in which case
 	 *                      the GameObject will not be rendered.
+	 * @param energy callback that return avatar energy
 	 */
 	public Energy(Vector2 topLeftCorner, Vector2 dimensions,
 				  TextRenderable renderable, Supplier<Integer> energy) {

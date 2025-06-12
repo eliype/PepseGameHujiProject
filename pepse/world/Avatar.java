@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * Represents the main player character in the game, capable of moving, jumping,
  * and displaying different animations based on its state and user input.
  * The avatar's actions consume energy, which regenerates when idle.
+ *
  * @author Eliyahu Peretz & Rom Ilany
  */
 public class Avatar extends GameObject {
@@ -24,6 +25,7 @@ public class Avatar extends GameObject {
 	private static final int ROUND = 16;
 	private static final float HALF = 0.5f;
 	private static final int HUNDRED = 100;
+	private static final int TWO = 2;
 	private static final String TAG = "avatar";
 	private static final String BLOCK_TAG = "block";
 	private static final String IMAGE_PATH = "src/assets/run_0.png";
@@ -69,7 +71,7 @@ public class Avatar extends GameObject {
 				  ImageReader imageReader) {
 		super(new Vector2(topLeftCorner.x(), topLeftCorner.y() - (SIZE + ROUND)),
 				new Vector2(SIZE, SIZE), imageReader.readImage(
-				IMAGE_PATH, false));
+						IMAGE_PATH, false));
 		this.inputListener = inputListener;
 		this.setTag(TAG);
 		this.mode = Moves.IDLE;
@@ -119,60 +121,83 @@ public class Avatar extends GameObject {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		float xVel = 0;
-		//this.mode = Moves.IDLE;
-		boolean isIdle = true;
-		boolean isNotIdle = false;
+		boolean isIdle = true;boolean isNotIdle = false;
+		int bothRightLeft = 0;
 		if (this.getVelocity().y() != 0) {
 			isIdle = false;
 		}
-		if (inputListener.isKeyPressed(KeyEvent.VK_LEFT)
-		) {
+		if (inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
+			bothRightLeft++;
 			if (this.energy > 0) {
 				xVel -= VELOCITY_X;
-				if (this.getVelocity().y() == 0) {
-					renderer().setRenderable(run);
-					renderer().setIsFlippedHorizontally(true);////////
-				} else {
-					renderer().setRenderable(this.jump);
-					renderer().setIsFlippedHorizontally(true);
-				}
+				this.left();
 			}
 			this.mode = Moves.RUN;
 			isIdle = false;
 			isNotIdle = true;
 		}
 		if (inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+			bothRightLeft++;
 			if (this.energy > 0) {
 				xVel += VELOCITY_X;
-
-				if (this.getVelocity().y() == 0) {
-					renderer().setRenderable(this.run);
-					renderer().setIsFlippedHorizontally(false);////////
-				} else {
-					renderer().setRenderable(this.jump);
-					renderer().setIsFlippedHorizontally(false);
-				}
+				this.right();
 			}
 			this.mode = Moves.RUN;
 			isNotIdle = true;
 			isIdle = false;
-
 		}
 		transform().setVelocityX(xVel);
-		if (inputListener.isKeyPressed(KeyEvent.VK_SPACE)
-		) {
+		if (inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
 			if (this.energy > 0 && this.energy >= TEN && getVelocity().y() == 0) {
-				transform().setVelocityY(VELOCITY_Y);
-				renderer().setRenderable(this.jump);
-				this.mode = Moves.JUMP;
+				this.up();
 				isNotIdle = true;
-				this.updateAvatarJumpObserver();
 			} else {
 				this.mode = Moves.UP;
 			}
 			isIdle = false;
-
 		}
+		this.otherSituationCheck(isIdle, isNotIdle, bothRightLeft);
+	}
+
+	/*
+	 *do part of the update when we move up
+	 */
+	private void up() {
+		transform().setVelocityY(VELOCITY_Y);
+		renderer().setRenderable(this.jump);
+		this.mode = Moves.JUMP;
+		this.updateAvatarJumpObserver();
+	}
+
+	/*
+	 *do part of the update when we move right
+	 */
+	private void right() {
+		if (this.getVelocity().y() == 0) {
+			renderer().setRenderable(this.run);
+			renderer().setIsFlippedHorizontally(false);
+		} else {
+			renderer().setRenderable(this.jump);
+			renderer().setIsFlippedHorizontally(false);
+		}
+	}
+
+	/*
+	 *do part of the update when we move left
+	 */
+	private void left() {
+		if (this.getVelocity().y() == 0) {
+			renderer().setRenderable(run);
+			renderer().setIsFlippedHorizontally(true);
+		} else {
+			renderer().setRenderable(this.jump);
+			renderer().setIsFlippedHorizontally(true);
+		}
+	}
+	/*
+	 *do part of the update after we move
+	 */
+	private void otherSituationCheck(boolean isIdle, boolean isNotIdle, int bothRightLeft) {
 		if (isIdle) {
 			renderer().setRenderable(this.idle);
 			this.mode = Moves.IDLE;
@@ -181,11 +206,14 @@ public class Avatar extends GameObject {
 		if (this.getVelocity().equals(Vector2.ZERO)) {
 			renderer().setRenderable(this.idle);
 		}
+		if (bothRightLeft == TWO && this.getVelocity().y() == 0) {
+			this.mode = Moves.IDLE;
+		}
 		if (this.getVelocity().y() != 0 && !isNotIdle) {
 			return;
 		}
-		this.movesSetter();
 
+		this.movesSetter();
 	}
 
 	/*
@@ -195,11 +223,7 @@ public class Avatar extends GameObject {
 		switch (this.mode) {
 			case RUN:
 				// code block
-				if(this.getVelocity().x()!=0) {
-					this.energy = Math.max(0, this.energy - HALF);
-				}else{
-					this.energy = Math.min(TEN * TEN, this.energy + 1);
-				}
+				this.energy = Math.max(0, this.energy - HALF);
 				break;
 			case JUMP:
 				this.energy = Math.max(0, this.energy - TEN);

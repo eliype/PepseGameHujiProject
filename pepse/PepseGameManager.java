@@ -42,7 +42,7 @@ public class PepseGameManager extends GameManager {
 	private static final int THREE = 3;
 	private static final float BLOCK_SIZE = 30;
 	private static final float HALF = 0.5f;
-	private static final int AVATER_X_PLACE = 450;
+	private static final int AVATER_X_PLACE = 480;
 	private static final int ENERGY_SIZE = 30;
 	private static final String BLOCK_TAG = "block";
 	private static final int CLOUD_HEIGHT = 10;
@@ -88,14 +88,11 @@ public class PepseGameManager extends GameManager {
 							   UserInputListener inputListener,
 							   WindowController windowController) {
 		super.initializeGame(imageReader, soundReader, inputListener, windowController);
-
-
 		this.windowController = windowController;
 		this.inputListener = inputListener;
 		//set the sky background
 		GameObject sky = Sky.create(windowController.getWindowDimensions());
 		gameObjects().addGameObject(sky, Layer.BACKGROUND);
-
 		//set the ground
 		Terrain terrain = new Terrain(windowController.getWindowDimensions(), TEN);
 		List<Block> groundList = terrain.createInRange(0,
@@ -104,39 +101,57 @@ public class PepseGameManager extends GameManager {
 		this.addToRemoveObjectList(groundList);
 		this.middleGround = new Vector2(0,
 				(int) windowController.getWindowDimensions().x());
-
 		// add Night
 		gameObjects().addGameObject(Night.create(windowController.
 				getWindowDimensions(), DAY_CYCLE), Layer.BACKGROUND);
 		//add sun
-		GameObject sun = Sun.create(windowController.
-				getWindowDimensions(), DAY_CYCLE);
-		gameObjects().addGameObject(SunHalo.create(sun), Layer.BACKGROUND);
-		gameObjects().addGameObject(sun, Layer.BACKGROUND);
-
+		this.addSun();
 		//add avatar
-		this.avatar = new Avatar(new Vector2(AVATER_X_PLACE,
-				terrain.groundHeightAt(AVATER_X_PLACE)), inputListener, imageReader);
-		gameObjects().addGameObject(avatar, Layer.DEFAULT);
-
-		setCamera(new Camera(avatar, windowController.getWindowDimensions()
-				.mult(HALF).subtract(avatar.getTopLeftCorner()),
-				windowController.getWindowDimensions(),
-				windowController.getWindowDimensions()));
+		this.addAvatar(terrain, imageReader);
 		//add energy
-		Energy energy = new Energy(Vector2.ZERO, new Vector2(ENERGY_SIZE, ENERGY_SIZE), new TextRenderable(
-				Integer.toString(avatar.getEnergy())), avatar::getEnergy);
-		gameObjects().addGameObject(energy);
-		energy.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
-
-
+		this.addEnergy();
 		//Building forest
+		this.buildForest(terrain);
+		//add cloud
+		this.addCloudObject();
+	}
+
+
+	//add the forest
+	private void buildForest(Terrain terrain) {
 		Flora treesPlant = new Flora(terrain::groundHeightAt);
 		List<GameObject> forest = treesPlant.createInRange(0, SCREEN_WIDTH);
 		this.addForestObjects(forest);
 		this.addGameObjectToRemoveGameObjectList(forest);
+	}
 
-		//add cloud
+	//add the sun
+	private void addSun() {
+		GameObject sun = Sun.create(windowController.
+				getWindowDimensions(), DAY_CYCLE);
+		gameObjects().addGameObject(SunHalo.create(sun), Layer.BACKGROUND);
+		gameObjects().addGameObject(sun, Layer.BACKGROUND);
+	}
+
+	//add energy
+	private void addEnergy() {
+		Energy energy = new Energy(Vector2.ZERO, new Vector2(ENERGY_SIZE, ENERGY_SIZE), new TextRenderable(
+				Integer.toString(avatar.getEnergy())), avatar::getEnergy);
+		gameObjects().addGameObject(energy);
+		energy.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
+	}
+//add the avatar
+	private void addAvatar(Terrain terrain, ImageReader imageReader) {
+		this.avatar = new Avatar(new Vector2(AVATER_X_PLACE,
+				terrain.groundHeightAt(AVATER_X_PLACE)), inputListener, imageReader);
+		gameObjects().addGameObject(avatar, Layer.DEFAULT);
+		setCamera(new Camera(avatar, windowController.getWindowDimensions()
+				.mult(HALF).subtract(avatar.getTopLeftCorner()),
+				windowController.getWindowDimensions(),
+				windowController.getWindowDimensions()));
+	}
+//add the cloud
+	private void addCloudObject() {
 		BiConsumer<GameObject, Integer> removeObject =
 				(GameObject obj, Integer layer) ->
 						gameObjects().removeGameObject(obj, layer);
@@ -176,7 +191,7 @@ public class PepseGameManager extends GameManager {
 	private void addCloude(Cloud cloud) {
 		List<Block> blocks = cloud.create(new Vector2(0, CLOUD_HEIGHT), THREE);
 		for (Block cloudPart : blocks) {
-			gameObjects().addGameObject(cloudPart, Layer.BACKGROUND+1);
+			gameObjects().addGameObject(cloudPart, Layer.BACKGROUND + 1);
 		}
 	}
 

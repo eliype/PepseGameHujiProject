@@ -26,6 +26,7 @@ public class Leaf extends Block {
 	 *                      Note that (0,0) is the top-left corner of the window.
 	 * @param renderable    The renderable representing the object. Can be null, in which case
 	 *                      the GameObject will not be rendered.
+	 * @param time the time that we want the transition happen
 	 */
 	public Leaf(Vector2 topLeftCorner, Renderable renderable,float time) {
 		super(topLeftCorner, renderable);
