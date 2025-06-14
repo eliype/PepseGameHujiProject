@@ -17,10 +17,20 @@ import java.awt.*;
  * @author Eliyahu & Rom
  */
 public class Night {
+	// Tag prefix used to identify night overlay GameObjects
 	private static final String TAG = "night";
+	// Static counter to differentiate multiple night objects,
+	//ensuring unique tags for each instance created.
 	private static int diff = 0;
+	/* Initial opacity value (fully transparent) for the night overlay */
 	private static final float INITIAL_VALUE = 0.0f;
+	/* Constant 2, used for halving the cycle length in opacity transition */
+
 	private static final float TWO = 2;
+	/*
+	 * The maximum opacity value ("midnight" opacity),
+	 * defining how dark the overlay becomes at night peak.
+	 */
 	private static final Float MIDNIGHT_OPACITY = 0.5f;
 
 	/**
@@ -43,7 +53,7 @@ public class Night {
 
 		// Animate opaqueness between INITIAL_VALUE and MIDNIGHT_OPACITY
 		new Transition<Float>(night, night.renderer()::setOpaqueness, INITIAL_VALUE, MIDNIGHT_OPACITY
-				, Transition.CUBIC_INTERPOLATOR_FLOAT, cycleLength/TWO,
+				, Transition.CUBIC_INTERPOLATOR_FLOAT, cycleLength / TWO,
 				Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
 				null);
 

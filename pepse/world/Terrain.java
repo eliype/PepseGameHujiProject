@@ -13,7 +13,8 @@ import java.util.List;
 /**
  * Represents the terrain of the world,
  * including generating ground height and blocks.
- *  @author Eliyahu Peretz & Rom Ilany
+ *
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Terrain {
 
@@ -22,13 +23,23 @@ public class Terrain {
 	//private static final Color BASE_GROUND_COLOR = Color.BLACK;
 	// amount of block beneath the top
 	private static final int TERRAIN_DEPTH = 20;
+	// Used to scale the Y value
+	// in the noise function
 	private static final int SEVEN = 7;
+	// Used to calculate initial
+	// ground height as 2/3 of window height.
 	private static final int THREE = 3;
+	// Used in the ratio 2/3 for
+	// initial ground height.
 	private static final int TWO = 2;
+	//The base height of the ground at x=0
 	private final float groundHeightAtX0;
 
 	//parameters
+	// The dimensions of the game window
 	private final Vector2 windowDimensions;
+	// A noise generator used to create
+	// pseudo-random but smooth terrain variations.
 	private final NoiseGenerator noiseGenerator;
 
 

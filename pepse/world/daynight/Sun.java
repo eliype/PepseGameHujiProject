@@ -11,15 +11,44 @@ import java.awt.*;
 
 /**
  * Represents the sun object with circular orbital animation.
- *  @author Eliyahu Peretz & Rom Ilany
+ *
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Sun {
+	/*
+	 * Constant value 2, used for divisions and positioning calculations
+	 */
+
 	private static final float TWO = 2;
+	/*
+	 * Constant value 3, used for positioning calculations
+	 */
+
 	private static final float THREE = 3;
+	/*
+	 * Constant value 5, used for positioning calculations
+	 */
+
 	private static final float FIVE = 5;
+	/*
+	 * Tag used to identify the sun GameObject
+	 */
+
 	private static final String TAG = "sun";
+	/*
+	 * Diameter (width and height) of the sun object in pixels
+	 */
+
 	private static final int SUN_SIZE = 50;
+	/*
+	 * Starting angle for the sun orbit animation (0 degrees)
+	 */
+
 	private static final float INITIAL_VALUE = 0.0f;
+	/*
+	 * Ending angle for the sun orbit animation (360 degrees for full rotation)
+	 */
+
 	private static final float FINAL_VALUE = 360f;
 
 	/**

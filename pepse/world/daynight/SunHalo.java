@@ -11,12 +11,18 @@ import java.awt.*;
 
 /**
  * Represents a transparent glowing halo around the sun.
+ *
  * @author Eliyahu & Rom
  */
 public class SunHalo {
+	/*Diameter (width and height) of the halo in pixels */
+
 	private static final int HALO_SIZE = 70;
-	private static final int TEN = 0;
+	/* Tag used to identify the halo GameObject */
+
 	private static final String TAG = "sun halo";
+	/* The color of the halo: yellow with low opacity (alpha=20 out of 255) */
+
 	private static final Color HALO_COLOR = new Color(255, 255, 0, 20);
 
 	/**

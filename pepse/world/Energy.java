@@ -11,11 +11,20 @@ import java.util.function.Supplier;
  * Represents an energy display UI element in the game.
  * The energy value is dynamically updated and shown
  * as a percentage on the screen.
- * @author Eliyahu & Rom
+ *
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Energy extends GameObject {
+	// A suffix used to indicate percentage
+	// in the energy display
 	private static final String PRECENT = "%";
+	//A callback function that returns
+	// the current energy level of the avatar.
+	// Used to dynamically update the displayed
+	// energy percentage.
 	private Supplier<Integer> energy;
+	// The text renderable that displays
+	// the energy percentage on screen.
 	private TextRenderable renderable;
 
 	/**
@@ -26,7 +35,7 @@ public class Energy extends GameObject {
 	 * @param dimensions    Width and height in window coordinates.
 	 * @param renderable    The renderable representing the object. Can be null, in which case
 	 *                      the GameObject will not be rendered.
-	 * @param energy callback that return avatar energy
+	 * @param energy        callback that return avatar energy
 	 */
 	public Energy(Vector2 topLeftCorner, Vector2 dimensions,
 				  TextRenderable renderable, Supplier<Integer> energy) {

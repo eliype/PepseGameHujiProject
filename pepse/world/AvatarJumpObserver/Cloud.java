@@ -23,17 +23,57 @@ import java.util.function.Consumer;
  * @author Eliyahu Peretz & Rom Ilany
  */
 public class Cloud implements AvatarJumpObserver {
+	/*
+	 * Size of each cloud block in pixels.
+	 */
 	private static final int SIZE_OF_BLOCK = 30;
+	/*
+	 * Size of raindrops in pixels (width and height).
+	 */
 	private static final int SIZE_OF_DROPS = 8;
+	/*
+	 * Numeric constant used in animation duration calculations.
+	 */
 	private static final int TWENTY_FIVE = 25;
+	/*
+	 * Numeric constant used in animation and positioning calculations.
+	 */
 	private static final int SEVEN = 7;
+	/*
+	 * Base color of cloud blocks (white).
+	 */
 	private static final Color BASE_CLOUD_COLOR =
 			new Color(255, 255, 255);
+	/*
+	 * Density of raindrops spawned when the
+	 * cloud rains.
+	 * Higher values increase the chance of
+	 * raindrop creation.
+	 */
 	private static final int DROPS_DENSITY = 3;
+	/*
+	 * Upper bound for random number generation
+	 * used to determine
+	 * whether a raindrop will be created for
+	 * a given cloud block.
+	 */
 	private static final int RANDOM_BOUND = 10;
+	/*
+	 * Duration of the raindrop fade-out animation in seconds.
+	 */
 	private static final float DROP_CYCLE = 3f;
+	/*
+	 * Final opacity of raindrops after fade-out
+	 */
 	private static final float DROP_FINALE = 0;
+	/*
+	 * Initial opacity of raindrops at creation
+	 */
 	private static final float INITIAL_DROP = 1;
+	/*
+	 * Width of the screen in pixels,
+	 * used for cloud movement boundaries.
+	 */
 	private static final int SCREEN_WIDTH = 1000;
 	// Pattern of blocks forming the cloud (1 = block present, 0 = empty)
 	private static final List<List<Integer>> CLOUD = List.of(

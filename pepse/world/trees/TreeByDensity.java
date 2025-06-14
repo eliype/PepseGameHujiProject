@@ -22,23 +22,74 @@ import java.util.Random;
  * @author Eliyahu Peretz & Rom Ilany
  */
 public class TreeByDensity implements Tree {
+
+	// The fixed width of the tree trunk (root) in pixels.
 	private static final int ROOT_WIDTH = 30;
+
+	// The maximum height of the tree trunk (root) in pixels.
 	private static final int ROOT_HEIGHT = 200;
+
+	// Probability threshold (out of 10) to generate a leaf at a given position.
 	private static final int LEAFS_DENSITY = 7;
+
+	// Probability threshold (out of 10) to generate a fruit at a given position.
+
+
 	private static final int FRUITS_DENSITY = 2;
+
+	// Constant value 10, used for probability and random threshold calculations.
+
+
 	private static final int TEN = 10;
+
+	//  Constant value 2, used for halving or other calculations.
+
+
 	private static final int TWO = 2;
+	// The size (width and height) of a leaf block in pixels.
+
 	private static final int LEAF_SIZE = 30;
+
+	//The horizontal span in pixels around the root where leaves and fruits can be placed.
+
 	private static final int LEAF_BLOCK = 60;
+
+	// The color used to render the tree trunk (brownish).
+
 	private static final Color ROOT_COLOR = new Color(100, 50, 20);
+
+	// The color used to render leaves (greenish).
+
+
 	private static final Color LEEFS_COLOR = new Color(50, 200, 30);
+
+	// Tag string assigned to the root GameObject for identification.
+
 	private static final String ROOT_TAG = "root";
+
+	// Tag string assigned to fruit GameObjects for identification.
+
+
 	private static final String FRUIT_TAG = "fruit";
+
+	// Tag string assigned to leaf GameObjects for identification.
+
+
 	private static final String LEAF_TAG = "leaf";
 
+	// Seed for random number generation to ensure deterministic/random but reproducible trees.
+
 	private long mySeed;
+
+	// List of all GameObjects composing the tree (root, leaves, fruits).
 	private List<GameObject> tree;
+
+	// The horizontal position (x-coordinate) where the tree will be placed in the world.
+
 	private int place;
+
+	// The vertical ground height (y-coordinate) at the tree's x position,
+	//used to position the root correctly on the ground.
 	private float groundAtHeightX;
 
 	/**
@@ -56,7 +107,7 @@ public class TreeByDensity implements Tree {
 		this.groundAtHeightX = groundAtHeightX;
 	}
 
-	/**
+	/*
 	 * Builds a tree root GameObject at the specified x position and adds it to the forest list.
 	 * The height of the root is randomized.
 	 * Also initiates the creation of leaves around the root.
@@ -80,7 +131,7 @@ public class TreeByDensity implements Tree {
 
 	}
 
-	/**
+	/*
 	 * Builds leaves (and sometimes fruits) around the given root.
 	 * Leaves are distributed in a grid-like pattern around the root with some randomness.
 	 *
@@ -111,7 +162,7 @@ public class TreeByDensity implements Tree {
 		}
 	}
 
-	/**
+	/*
 	 * Adds a fruit GameObject at the given vector position, if conditions meet.
 	 * Fruits appear with some randomness and only within the bounds of the root.
 	 *
@@ -133,7 +184,7 @@ public class TreeByDensity implements Tree {
 		}
 	}
 
-	/**
+	/*
 	 * Checks whether the given vertical position is above the top of the root.
 	 *
 	 * @param i    the y-coordinate to check.

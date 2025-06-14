@@ -13,7 +13,9 @@ import java.awt.*;
  *  @author Eliyahu Peretz & Rom Ilany
  */
 public class Sky extends GameObject {
+	// A string tag to identify the sky GameObject.
 	private static final String SKY_TAG = "sky";
+	// The basic sky color used to render the sky background.
 	private static final Color BASIC_SKY_COLOR = Color.decode("#80C6E5");
 
 	/**

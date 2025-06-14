@@ -11,13 +11,18 @@ import pepse.world.Avatar;
  * Represents a fruit object in the game world that can be collected by the avatar.
  * When the avatar collides with the fruit, it increases the avatar's energy by a fixed amount.
  * After being collected, the fruit temporarily disappears and then reappears after a delay.
- *  @author Eliyahu Peretz & Rom Ilany
-
+ *
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Fruit extends GameObject {
+	// Tag to identify the avatar object in collisions
 	private static final String AVATAR_TAG = "avatar";
+	// Time  the fruit remains invisible
+	// after being collected before reappearing
 	private static final int WAITING_TIME = 30;
+	// Amount of energy added to the avatar upon collecting the fruit
 	private static final int ADD_ENERGY_AVATAR = 10;
+	// Maximum energy the avatar can have
 	private static final int MAX_ENERGY = 100;
 
 

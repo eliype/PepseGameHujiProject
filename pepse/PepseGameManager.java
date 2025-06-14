@@ -37,27 +37,53 @@ import java.util.function.BiConsumer;
  * @author Eliyahu Peretz & Rom Ilany
  */
 public class PepseGameManager extends GameManager {
+	// Duration of the day-night cycle (in seconds)
 	private static final float DAY_CYCLE = 30;
+	// Constant used for terrain generation
 	private static final int TEN = 10;
+	// Constant Three
 	private static final int THREE = 3;
-	private static final float BLOCK_SIZE = 30;
+	// Half value, used for camera
+	// centering calculations
 	private static final float HALF = 0.5f;
+	// Initial X position of the avatar character
 	private static final int AVATER_X_PLACE = 480;
+	// Size of the energy bar
 	private static final int ENERGY_SIZE = 30;
+	// Tag used to identify ground blocks
 	private static final String BLOCK_TAG = "block";
+	// Y-coordinate height at which clouds are drawn
 	private static final int CLOUD_HEIGHT = 10;
+	// Height of the game screen
 	private static final int SCREEN_HEIGHT = 900;
+	// Width of the game screen
 	private static final int SCREEN_WIDTH = 1000;
+	// Tag used to identify leaf objects
 	private static final String LEAF_TAG = "leaf";
+	// Tag used to identify root objects
 	private static final String ROOT_TAG = "root";
+	// Tag used to identify fruit objects
 	private static final String FRUIT_TAG = "fruit";
+	// Title of the game window
 	private static final String TITLE = "pepse";
+	//fields
+	// Listens for user input
 	private UserInputListener inputListener;
+	// Controls the game window
 	private WindowController windowController;
+	// List of game objects to be removed when
+	// they go out of the screen bounds.
 	private List<GameObject> removeObjects;
+	// Represents the range of terrain
+	// blocks to the left of the current screen view.
 	private Vector2 leftGround;
+	// Represents the range of terrain
+	// blocks currently in view
 	private Vector2 middleGround;
+	// Represents the range of terrain blocks
+	// to the right of the current screen view
 	private Vector2 rightGround;
+	// The player-controlled character.
 	private Avatar avatar;
 
 	/**
@@ -140,7 +166,8 @@ public class PepseGameManager extends GameManager {
 		gameObjects().addGameObject(energy);
 		energy.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
 	}
-//add the avatar
+
+	//add the avatar
 	private void addAvatar(Terrain terrain, ImageReader imageReader) {
 		this.avatar = new Avatar(new Vector2(AVATER_X_PLACE,
 				terrain.groundHeightAt(AVATER_X_PLACE)), inputListener, imageReader);
@@ -150,7 +177,8 @@ public class PepseGameManager extends GameManager {
 				windowController.getWindowDimensions(),
 				windowController.getWindowDimensions()));
 	}
-//add the cloud
+
+	//add the cloud
 	private void addCloudObject() {
 		BiConsumer<GameObject, Integer> removeObject =
 				(GameObject obj, Integer layer) ->

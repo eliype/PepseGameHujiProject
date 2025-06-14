@@ -6,17 +6,24 @@ import danogl.components.Transition;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.world.Block;
+
 /**
  * Represents a leaf block in the game world that animates by gently
  * swaying (rotating) and shrinking horizontally over a repeating cycle.
  * The leaf is implemented as a subclass of Block.
- *  @author Eliyahu Peretz & Rom Ilany
+ *
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public class Leaf extends Block {
+	// The final width scale factor for the leaf (85% of original width)
+
 	private static final float FINAL_WIDTH = 0.85f;
+	// Rotation angles for leaf swaying animation (in degrees)
 	private static final float INITIAL_ANGLE_VALUE = 0;
 	private static final float FINAL_ANGLE_VALUE = 20;
+	// Duration in seconds for one full swaying/shrinking cycle
 	private static final float LEAF_CYCLE_LENGTH = 3f;
+	// Tag to identify leaf objects
 	private static final String LEAF_TAG = "leaf";
 
 	/**
@@ -26,13 +33,14 @@ public class Leaf extends Block {
 	 *                      Note that (0,0) is the top-left corner of the window.
 	 * @param renderable    The renderable representing the object. Can be null, in which case
 	 *                      the GameObject will not be rendered.
-	 * @param time the time that we want the transition happen
+	 * @param time          the time that we want the transition happen
 	 */
-	public Leaf(Vector2 topLeftCorner, Renderable renderable,float time) {
+	public Leaf(Vector2 topLeftCorner, Renderable renderable, float time) {
 		super(topLeftCorner, renderable);
 		this.putInScheduledTask(time);
 		this.setTag(LEAF_TAG);
 	}
+
 	/*
 	 * Updates the leaf's animation by starting two transitions:
 	 * 1. Rotates the leaf back and forth between INITIAL_ANGLE_VALUE and FINAL_ANGLE_VALUE degrees.
@@ -67,12 +75,13 @@ public class Leaf extends Block {
 				Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
 				null);
 	}
+
 	/*
 	 * Schedules a one-time task to start the leaf animation after the specified delay.
 	 *
 	 * @param time Delay in seconds before starting the animation.
 	 */
-	private void putInScheduledTask( float time) {
+	private void putInScheduledTask(float time) {
 		new ScheduledTask(
 				this,
 				time,

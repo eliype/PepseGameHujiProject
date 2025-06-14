@@ -20,43 +20,62 @@ import java.util.ArrayList;
  * @author Eliyahu Peretz & Rom Ilany
  */
 public class Avatar extends GameObject {
+	// The avatar's width and height in pixels.
 	private static final int SIZE = 30;
+	// A general-purpose constant used for
+	// energy-related calculations.
 	private static final int TEN = 10;
+	// A general-purpose constant used
+	// for energy-related calculations.
 	private static final int ROUND = 16;
+	//Used for animation durations and energy adjustments.
 	private static final float HALF = 0.5f;
+	// Represents the full energy level.
 	private static final int HUNDRED = 100;
+	// Used for input checks, like detecting
+	// if both left/right are pressed.
 	private static final int TWO = 2;
+	// A tag identifying the avatar GameObject.
 	private static final String TAG = "avatar";
+	// Used to identify collision with blocks.
 	private static final String BLOCK_TAG = "block";
-	private static final String IMAGE_PATH = "src/assets/run_0.png";
-	private static final String ANIMATION_PIC1 = "src/assets/idle_0.png";
-	private static final String ANIMATION_PIC2 = "src/assets/idle_1.png";
-	private static final String ANIMATION_PIC3 = "src/assets/idle_2.png";
-	private static final String ANIMATION_PIC4 = "src/assets/idle_3.png";
-	private static final String ANIMATION_PIC5 = "src/assets/jump_0.png";
-	private static final String ANIMATION_PIC6 = "src/assets/jump_1.png";
-	private static final String ANIMATION_PIC7 = "src/assets/jump_2.png";
-	private static final String ANIMATION_PIC8 = "src/assets/jump_3.png";
-	private static final String ANIMATION_PIC9 = "src/assets/run_0.png";
-	private static final String ANIMATION_PIC10 = "src/assets/run_1.png";
-	private static final String ANIMATION_PIC11 = "src/assets/run_2.png";
-	private static final String ANIMATION_PIC12 = "src/assets/run_3.png";
-	private static final String ANIMATION_PIC13 = "src/assets/run_4.png";
-	private static final String ANIMATION_PIC14 = "src/assets/run_5.png";
+	//animation
+	private static final String IMAGE_PATH = "assets/run_0.png";
+	private static final String ANIMATION_PIC1 = "assets/idle_0.png";
+	private static final String ANIMATION_PIC2 = "assets/idle_1.png";
+	private static final String ANIMATION_PIC3 = "assets/idle_2.png";
+	private static final String ANIMATION_PIC4 = "assets/idle_3.png";
+	private static final String ANIMATION_PIC5 = "assets/jump_0.png";
+	private static final String ANIMATION_PIC6 = "assets/jump_1.png";
+	private static final String ANIMATION_PIC7 = "assets/jump_2.png";
+	private static final String ANIMATION_PIC8 = "assets/jump_3.png";
+	private static final String ANIMATION_PIC9 = "assets/run_0.png";
+	private static final String ANIMATION_PIC10 = "assets/run_1.png";
+	private static final String ANIMATION_PIC11 = "assets/run_2.png";
+	private static final String ANIMATION_PIC12 = "assets/run_3.png";
+	private static final String ANIMATION_PIC13 = "assets/run_4.png";
+	private static final String ANIMATION_PIC14 = "assets/run_5.png";
+	//velocity and gravity constants
 	private static final float VELOCITY_X = 310;
 	private static final float VELOCITY_Y = -300;
 	private static final float GRAVITY = 180;
-
+	// Listens to keyboard input for controlling the avatar.
 	private final UserInputListener inputListener;
+	// Tracks the avatar's current energy
+	// level, ranging from 0 to 100.
 	private float energy;
 
-
+	// An enum representing the current
+	// state of the avatar.
 	private enum Moves {IDLE, RUN, JUMP, UP}
 
+	// Current movement mode/state of the avatar.
 	private Moves mode;
+	// Animation sequence used on the avatar.
 	private AnimationRenderable run;
 	private AnimationRenderable jump;
 	private AnimationRenderable idle;
+	// A list of observers that react when the avatar jumps.
 	private ArrayList<AvatarJumpObserver> jumpObserver;
 
 	/**
@@ -91,8 +110,7 @@ public class Avatar extends GameObject {
 				ANIMATION_PIC6, false),
 				imageReader.readImage(
 						ANIMATION_PIC7, false),
-				imageReader.readImage(
-						ANIMATION_PIC8, false)};
+				imageReader.readImage(ANIMATION_PIC8,false)};
 		this.jump = new AnimationRenderable(clips, HALF);
 		clips = new Renderable[]{imageReader.readImage(
 				ANIMATION_PIC9, false), imageReader.readImage(
@@ -194,6 +212,7 @@ public class Avatar extends GameObject {
 			renderer().setIsFlippedHorizontally(true);
 		}
 	}
+
 	/*
 	 *do part of the update after we move
 	 */

@@ -3,7 +3,7 @@ package pepse.world.AvatarJumpObserver;
 /**
  * interface for all classes that interact with avatar jump
  *
- * @author Eliyahu & Rom
+ * @author Eliyahu Peretz & Rom Ilany
  */
 public interface AvatarJumpObserver {
 	/**

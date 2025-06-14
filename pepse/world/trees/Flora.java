@@ -27,22 +27,16 @@ import java.util.function.Function;
  */
 public class Flora {
 
-
+	// Width of each root/plant segment used
+	// for spacing trees
 	private static final int ROOT_WIDTH = 30;
-	private static final int ROOT_HEIGHT = 200;
+	// Controls randomness: approximately 1 in ROOT_PLANT_RANDOM
+	// chance to place a plant at each position
 	private static final int ROOT_PLANT_RANDOM = 10;
-	private static final int LEAFS_DENSITY = 7;
-	private static final int FRUITS_DENSITY = 2;
-	private static final int TEN = 10;
-	private static final int TWO = 2;
-	private static final int LEAF_SIZE = 30;
-	private static final int LEAF_BLOCK = 60;
-	private static final Color ROOT_COLOR = new Color(100, 50, 20);
-	private static final Color LEEFS_COLOR = new Color(50, 200, 30);
-	private static final String ROOT_TAG = "root";
-	private static final String FRUIT_TAG = "fruit";
-	private static final String LEAF_TAG = "leaf";
+	// Seed for the random number generator to
+	// ensure consistent flora placement across runs
 	private static final long MY_SEED = 10;
+	// Function to get terrain height at a given x-coordinate
 	private Function<Float, Float> getHeight;
 
 
